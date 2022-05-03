@@ -38,7 +38,22 @@ public class FXMLController {
     
     @FXML
     void doRun(ActionEvent event) {
-    	txtResult.clear();
+    	this.txtResult.clear();
+    	if(this.cmbNerc.getValue()==null) {
+    		this.txtResult.setText("Devi selezionare un NERC");
+    		return;
+    	}
+    	if(this.txtYears.getText().isBlank()) {
+    		this.txtResult.setText("Devi inserire max years");
+    		return;
+    	}
+    	int y = Integer.parseInt(this.txtYears.getText());
+    	if(this.txtHours.getText().isBlank()) {
+    		this.txtResult.setText("Devi selezionare max hours");
+    		return;
+    	}
+    	int h = Integer.parseInt(this.txtHours.getText());
+    	this.txtResult.setText(this.model.worstCaseAnalysis(this.cmbNerc.getValue().getId(), y, h));
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -54,5 +69,6 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	this.cmbNerc.getItems().setAll(this.model.getNercList());
     }
 }
